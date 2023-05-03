@@ -1,0 +1,6 @@
+location            = "eastus"
+resource_group_name = "rg-dev"
+crm_subnet_id       = "/subscriptions/d0ff7b71-9926-4d0f-b630-4c832323cab4/resourceGroups/rg-dev/providers/Microsoft.Network/virtualNetworks/dev-vnet/subnets/dev-crm-subnet"
+admin_username      = "cilut"
+admin_password      = "+3574+"
+ssh_public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDQ2F/7VCzWAm1MGGgM9iNebZoGAVH0w1YcF+gHAvl6bHocnWscU/pvvRLI6tzQZ6x8U6WQylDLbDNs6uhErKq3zC+BhgdBSrFCrCqx9dLxPxJFkWudcYAm/6HlyvhePf0K8zN/KJU6xb/LN6xM2Dk1C20sQaAdb1D3qzKGrW8aT72PfqXrTUMTjT40G8RmzyKwsv4z7mbDWy1OLbJGAEuLBEQX9MIP3MJdxcPJpm7V5l5Yaxa5Kz/d5QyW8AWADeEKVKH9brGxLxCOZn97iY5M5aL+5a5JzW5ze1H55G0EGXO89OoOfwoh0CXGFm4afOvFq3/gzf8gT7TXpTzT6vZIW83gW8sXjYh2EZ1EQx/dx6aLdmd4oj4fjKw4lwiaM+zZ48G68fSPT24Zn90jG40d/xpMt5y+IwzLlKYru5vyF2E7ytK5rBpwX9YrRbRjV7zhdjnHwFV7zCjKZu3qYZCtGZAzp9slYUy8zyBqFO/FHcT6U0="

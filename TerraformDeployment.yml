@@ -1,0 +1,71 @@
+# This is an example YAML pipeline for deploying a Terraform configuration using Azure DevOps
+
+trigger:
+  branches:
+    include:
+    - none
+
+variables:
+  # Update the values below to match your environment
+  storage_account_name: "tfdevfastex"
+  resource_group_name: "rg_auxiliar"
+  key_vault_name: "kvdevfastexx"
+  location: "eastus"
+  tfstate_container_name: "sadevffstate"
+  tfstate_file_name: "terraform.tfstate"
+
+stages:
+- stage: Deploy
+  displayName: Deploy Terraform configuration
+  jobs:
+  - job: DeployTerraform
+    displayName: Deploy Terraform
+    timeoutInMinutes: 1440 # Set a long timeout to give enough time for manual intervention
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    
+    - task: AzureKeyVault@2
+      displayName: Get storage account key from Key Vault
+      inputs:
+        azureSubscription: GeneralConnection
+        keyVaultName: $(key_vault_name)
+        secretsFilter: "storageAccountKey"
+        RunAsPreJob: true
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+      displayName: Install Terraform
+      inputs:
+        terraformVersion: "1.1.5"
+
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'GeneralConnection'
+        backendConfig: |
+          storage_account_name = "$(storage_account_name)"
+          container_name       = "$(tfstate_container_name)"
+          key                  = "terraform.tfstate"
+          resource_group_name  = "$(resource_group_name)"
+        backendAzureRmResourceGroupName: 'rg_auxiliar'
+        backendAzureRmStorageAccountName: 'sadevffstate'
+        backendAzureRmContainerName: 'sadevffstate'
+        backendAzureRmKey: '$(tfstate_file_name)'
+    - task: TerraformTaskV4@4
+      displayName: Validate terraform files
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+    - task: TerraformTaskV4@4
+      displayName: Plan terraform files
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        environmentServiceNameAzureRM: 'GeneralConnection'
+    - task: TerraformTaskV4@4
+      displayName: Apply terraform files
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        environmentServiceNameAzureRM: 'GeneralConnection'
+        commandOptions: "-auto-approve"
