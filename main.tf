@@ -24,16 +24,16 @@ module "virtual_networks" {
 
 # }
 
-# module "app_service" {
+module "app_service" {
 
-#   depends_on = [
-#     module.resource_group
-#   ]
-#   source           = "./modules/app_services"
-#   app_service_plan = local.app_service_plan
-#   subnet_output    = module.virtual_networks.subnet_output
+  depends_on = [
+    module.resource_group
+  ]
+  source           = "./modules/app_services"
+  app_service_plan = local.app_service_plan
+  subnet_output    = module.virtual_networks.subnet_output
 
-# }
+}
 
 # module "database" {
 
@@ -57,17 +57,17 @@ module "storage_accounts" {
   vnet_output     = module.virtual_networks.vnet_output
 }
 
-# module "front_door" {
+module "front_door" {
 
-#   depends_on = [
-#     module.resource_group
-#   ]
-#   source        = "./modules/front_doors"
-#   front_door    = local.front_door
-#   endpoint      = local.endpoint
-#   origin_groups = local.origin_groups
-#   profiles      = local.profiles
+  depends_on = [
+    module.resource_group
+  ]
+  source        = "./modules/front_doors"
+  front_door    = local.front_door
+  endpoint      = local.endpoint
+  origin_groups = local.origin_groups
+  profiles      = local.profiles
 
-# }
+}
 
 

@@ -119,8 +119,6 @@ locals {
       host_name  = "api.${var.env}.${var.domain}"
       record_dns = "api"
     }
-
-
     }
   ]
 
